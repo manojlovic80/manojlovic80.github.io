@@ -38,9 +38,6 @@
       margin-bottom:14px;
     }
     .nav-top a{
-      display:inline-flex;
-      align-items:center;
-      gap:6px;
       padding:8px 12px;
       border-radius:12px;
       border:1px solid var(--border);
@@ -49,53 +46,19 @@
       text-decoration:none;
       font-size:14px;
       font-weight:600;
-      backdrop-filter:blur(8px);
     }
-    .nav-top a:hover{background:rgba(255,255,255,.12)}
     .card{
       background:var(--card);
       border:1px solid var(--border);
       border-radius:18px;
       box-shadow:var(--shadow);
       padding:16px;
-      backdrop-filter:blur(12px);
       margin-bottom:16px;
     }
-    h1{
-      margin:8px 0 4px;
-      font-size:clamp(22px,3vw,30px);
-    }
-    h2{
-      margin:0 0 8px;
-      font-size:18px;
-      color:#fff;
-    }
+    h1{margin:8px 0 4px;font-size:28px}
+    h2{margin:0 0 8px;font-size:18px;color:#fff}
     p,li{color:var(--muted);line-height:1.6}
-    ul{margin:8px 0 0 18px}
-    .badge{
-      display:inline-block;
-      margin-top:6px;
-      padding:6px 10px;
-      border-radius:999px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.06);
-      font-size:13px;
-      color:var(--muted);
-    }
-    .logo{
-      display:flex;
-      align-items:center;
-      gap:14px;
-      margin-bottom:10px;
-    }
-    .logo img{
-      height:64px;
-      width:auto;
-      background:#fff;
-      padding:6px;
-      border-radius:10px;
-    }
-    label{display:block;margin-top:10px;color:var(--muted);font-size:14px}
+    label{display:block;margin-top:10px;color:var(--muted)}
     input{
       width:100%;
       margin-top:6px;
@@ -106,24 +69,6 @@
       color:var(--text);
       font-size:16px;
     }
-    input:focus{
-      outline:none;
-      border-color:var(--accent);
-      box-shadow:0 0 0 4px rgba(56,189,248,.18);
-    }
-    .check{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      margin-top:12px;
-      padding:10px 12px;
-      border-radius:12px;
-      border:1px solid var(--border);
-      background:rgba(255,255,255,.05);
-      font-size:14px;
-      color:var(--muted);
-    }
-    .check input{margin-top:3px;accent-color:var(--accent)}
     button{
       width:100%;
       margin-top:12px;
@@ -132,15 +77,14 @@
       border-radius:12px;
       font-size:16px;
       font-weight:800;
-      color:#06202b;
       background:linear-gradient(135deg,#38bdf8,#22c55e);
+      color:#06202b;
       cursor:pointer;
     }
-    button:disabled{opacity:.5;cursor:not-allowed}
+    button:disabled{opacity:.5}
     .result{
       min-height:220px;
       display:flex;
-      flex-direction:column;
       align-items:center;
       justify-content:center;
       border-radius:16px;
@@ -148,19 +92,19 @@
       background:rgba(255,255,255,.05);
       padding:14px;
       text-align:center;
+      flex-direction:column;
       gap:10px;
     }
     img.qr{
       max-width:260px;
       width:100%;
-      border-radius:14px;
       background:#fff;
       padding:10px;
+      border-radius:14px;
     }
     .ok{color:var(--ok)}
     .err{color:var(--danger)}
     footer{
-      margin-top:14px;
       text-align:center;
       font-size:12.5px;
       color:rgba(226,232,240,.7);
@@ -171,128 +115,88 @@
 <body>
 <div class="wrap">
 
-  <!-- NAV -->
   <div class="nav-top">
     <a href="index.html">🏠 Home</a>
-    <a href="https://yu1srs.org.rs/" target="_blank" rel="noopener">🌐 SRS – zvanični sajt</a>
+    <a href="https://yu1srs.org.rs/" target="_blank">🌐 SRS – zvanični sajt</a>
   </div>
 
-  <!-- HEADER -->
   <div class="card">
-    <div class="logo">
-      <img src="images/srs-logo.png" alt="Savez radio-amatera Srbije">
-      <div>
-        <h1>IPS QR – Članarina SRS 2026</h1>
-        <div class="badge">Nezvanični IPS QR generator</div>
-      </div>
-    </div>
-
+    <h1>IPS QR – Članarina SRS 2026</h1>
     <p>
-      Ova stranica omogućava generisanje <strong>IPS QR koda</strong> za plaćanje
-      <strong>članarine Savezu radio-amatera Srbije (SRS) za 2026. godinu</strong>
-      putem mobilnog bankarstva.
+      Generisanje IPS QR koda za plaćanje članarine
+      <strong>Savezu radio-amatera Srbije</strong>.
     </p>
-
-    <ul>
-      <li>Unesite ime i prezime (ide u svrhu plaćanja)</li>
-      <li>Unesite JMBG (koristi se kao poziv na broj)</li>
-      <li>Pre plaćanja proverite podatke u aplikaciji banke</li>
-    </ul>
   </div>
 
-  <!-- FORMA -->
   <div class="card">
     <h2>Unos podataka</h2>
 
     <form id="qrForm">
-      <label>Ime i prezime
+      <label>Ime i prezime (uplatilac)
         <input type="text" id="imePrezime" required>
       </label>
 
-      <label>JMBG (13 cifara)
-        <input type="text" id="jmbg" pattern="[0-9]{13}" inputmode="numeric" required>
+      <label>Poziv na broj (npr. broj članske karte)
+        <input type="text" id="poziv" required>
       </label>
 
-      <div class="check">
-        <input type="checkbox" id="confirm">
-        <div>
-          Potvrđujem da ću <strong>pre plaćanja</strong> proveriti broj računa, iznos i ostale podatke.
-        </div>
-      </div>
-
-      <button id="btn" type="submit" disabled>Generiši QR kod</button>
+      <button id="btn" type="submit">Generiši QR kod</button>
     </form>
   </div>
 
-  <!-- REZULTAT -->
   <div class="card">
     <h2>Rezultat</h2>
     <div id="result" class="result">
-      <div>Popunite podatke i kliknite na dugme.</div>
+      Unesite podatke i kliknite na dugme.
     </div>
   </div>
 
   <footer>
-    © 2026 · IPS QR SRS · Nezvanični alat  
-    <br>
-    Autor: <strong>Dragan Manojlović – YT0K</strong>  
-    <br>
-    Autor ne preuzima odgovornost za greške i zloupotrebu.
+    © 2026 · IPS QR SRS · Nezvanični alat<br>
+    Autor: <strong>Dragan Manojlović – YT0K</strong>
   </footer>
 
 </div>
 
 <script>
-  const form = document.getElementById('qrForm');
-  const confirmBox = document.getElementById('confirm');
-  const btn = document.getElementById('btn');
-  const resultDiv = document.getElementById('result');
-
-  confirmBox.addEventListener('change', () => {
-    btn.disabled = !confirmBox.checked;
-  });
-
-  form.addEventListener('submit', async (e) => {
+  document.getElementById('qrForm').addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const imePrezime = document.getElementById('imePrezime').value.trim();
-    const jmbg = document.getElementById('jmbg').value.trim();
+    const ime = document.getElementById('imePrezime').value.trim();
+    const poziv = document.getElementById('poziv').value.trim();
+    const result = document.getElementById('result');
 
-    if (!/^\d{13}$/.test(jmbg)) {
-      resultDiv.innerHTML = '<div class="err">JMBG mora imati tačno 13 cifara.</div>';
-      return;
-    }
+    result.innerHTML = 'Generišem QR kod…';
 
-    resultDiv.innerHTML = 'Generišem QR kod…';
-
-    const racun = '205000000000245207';
+    const racun = '205000000000245207'; // PROVERITI
     const iznos = 'RSD3000,00';
-    const svrha = `Članarina SRS za 2026. godinu - ${imePrezime}`;
-    const pozivNaBroj = jmbg;
+    const primalac = 'Savez radio-amatera Srbije';
+    const svrha = `Članarina SRS za 2026. godinu – ${ime}`;
 
-    const tekst = `K:PR|V:01|C:1|R:${racun}|N:${svrha}|I:${iznos}|SF:289|S:${pozivNaBroj}`;
+    const tekst =
+      `K:PR|V:01|C:1|R:${racun}|N:${primalac}|I:${iznos}|P:${svrha}|S:${poziv}`;
 
     try{
-      const response = await fetch('https://nbs.rs/QRcode/api/qr/v1/generate/300',{
+      const r = await fetch('https://nbs.rs/QRcode/api/qr/v1/generate/300',{
         method:'POST',
         headers:{'Content-Type':'text/plain'},
         body:tekst
       });
 
-      const data = await response.json();
+      const data = await r.json();
 
       if(data.s && data.s.code === 0){
-        resultDiv.innerHTML = '';
+        result.innerHTML = '';
         const img = document.createElement('img');
         img.className = 'qr';
         img.src = 'data:image/png;base64,' + data.i;
-        resultDiv.appendChild(img);
-        resultDiv.innerHTML += '<div class="ok">QR kod je uspešno generisan.</div>';
+        result.appendChild(img);
+        result.innerHTML += '<div class="ok">QR kod je uspešno generisan.</div>';
       }else{
-        resultDiv.innerHTML = `<div class="err">Greška: ${data.s?.desc || 'Nepoznata greška'}</div>`;
+        result.innerHTML = `<div class="err">Greška: ${data.s?.desc || 'Nepoznata greška'}</div>`;
       }
-    }catch(err){
-      resultDiv.innerHTML = '<div class="err">Greška pri komunikaciji sa NBS serverom.</div>';
+    }catch{
+      result.innerHTML = '<div class="err">Greška pri komunikaciji sa NBS serverom.</div>';
     }
   });
 </script>
