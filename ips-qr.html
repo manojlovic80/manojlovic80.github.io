@@ -191,9 +191,9 @@
     const ro = poziv.replace(/\D/g, '');
 
     // OBAVEZNI TAGOVI + RO opcioni (ovo je tvoj "radni" format, samo ispravno mapiran)
-    let tekst = `K:PR|V:01|C:1|R:${racun}|N:${primalac}|I:${iznos}|SF:289|S:${svrha}`;
+    let tekst = `K:PR|V:01|C:1|R:${racun}|N:${primalac}|I:${iznos}|SF:289|S:${svrha}|P:${imePrezime}`;
     if (ro.length > 0) {
-      tekst += `|RO:${ro}`;
+        tekst += `|RO:${ro}`;
     }
 
     try {
