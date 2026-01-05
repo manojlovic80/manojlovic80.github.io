@@ -36,8 +36,12 @@
       justify-content:space-between;
       gap:12px;
       margin-bottom:14px;
+      flex-wrap:wrap;
     }
     .nav-top a{
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
       padding:8px 12px;
       border-radius:12px;
       border:1px solid var(--border);
@@ -46,19 +50,51 @@
       text-decoration:none;
       font-size:14px;
       font-weight:600;
+      backdrop-filter:blur(8px);
     }
+    .nav-top a:hover{background:rgba(255,255,255,.12)}
     .card{
       background:var(--card);
       border:1px solid var(--border);
       border-radius:18px;
       box-shadow:var(--shadow);
       padding:16px;
+      backdrop-filter:blur(12px);
       margin-bottom:16px;
     }
-    h1{margin:8px 0 4px;font-size:28px}
+    h1{
+      margin:8px 0 4px;
+      font-size:clamp(22px,3vw,30px);
+    }
     h2{margin:0 0 8px;font-size:18px;color:#fff}
     p,li{color:var(--muted);line-height:1.6}
-    label{display:block;margin-top:10px;color:var(--muted)}
+    ul{margin:8px 0 0 18px}
+    .badge{
+      display:inline-block;
+      margin-top:6px;
+      padding:6px 10px;
+      border-radius:999px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.06);
+      font-size:13px;
+      color:var(--muted);
+    }
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:14px;
+      margin-bottom:10px;
+      flex-wrap:wrap;
+    }
+    .logo img{
+      height:64px;
+      width:auto;
+      background:#fff;
+      padding:6px;
+      border-radius:10px;
+      border:1px solid rgba(0,0,0,.05);
+    }
+    label{display:block;margin-top:10px;color:var(--muted);font-size:14px}
     input{
       width:100%;
       margin-top:6px;
@@ -69,6 +105,25 @@
       color:var(--text);
       font-size:16px;
     }
+    input:focus{
+      outline:none;
+      border-color:var(--accent);
+      box-shadow:0 0 0 4px rgba(56,189,248,.18);
+    }
+    .check{
+      display:flex;
+      gap:10px;
+      align-items:flex-start;
+      margin-top:12px;
+      padding:10px 12px;
+      border-radius:12px;
+      border:1px solid var(--border);
+      background:rgba(255,255,255,.05);
+      font-size:14px;
+      color:var(--muted);
+      line-height:1.45;
+    }
+    .check input{margin-top:3px;accent-color:var(--accent)}
     button{
       width:100%;
       margin-top:12px;
@@ -77,14 +132,18 @@
       border-radius:12px;
       font-size:16px;
       font-weight:800;
-      background:linear-gradient(135deg,#38bdf8,#22c55e);
       color:#06202b;
+      background:linear-gradient(135deg,#38bdf8,#22c55e);
       cursor:pointer;
+      transition:filter .15s ease, transform .06s ease;
     }
-    button:disabled{opacity:.5}
+    button:hover{filter:brightness(1.03)}
+    button:active{transform:translateY(1px)}
+    button:disabled{opacity:.55;cursor:not-allowed}
     .result{
       min-height:220px;
       display:flex;
+      flex-direction:column;
       align-items:center;
       justify-content:center;
       border-radius:16px;
@@ -92,19 +151,24 @@
       background:rgba(255,255,255,.05);
       padding:14px;
       text-align:center;
-      flex-direction:column;
       gap:10px;
     }
     img.qr{
       max-width:260px;
       width:100%;
+      border-radius:14px;
       background:#fff;
       padding:10px;
-      border-radius:14px;
     }
-    .ok{color:var(--ok)}
-    .err{color:var(--danger)}
+    .ok{color:var(--ok);font-weight:700}
+    .err{color:var(--danger);font-weight:700}
+    .small{
+      font-size:12.5px;
+      color:rgba(226,232,240,.75);
+      line-height:1.5;
+    }
     footer{
+      margin-top:14px;
       text-align:center;
       font-size:12.5px;
       color:rgba(226,232,240,.7);
@@ -115,90 +179,165 @@
 <body>
 <div class="wrap">
 
+  <!-- NAV -->
   <div class="nav-top">
     <a href="index.html">🏠 Home</a>
-    <a href="https://yu1srs.org.rs/" target="_blank">🌐 SRS – zvanični sajt</a>
+    <a href="https://yu1srs.org.rs/" target="_blank" rel="noopener">🌐 SRS – zvanični sajt</a>
   </div>
 
+  <!-- HEADER -->
   <div class="card">
-    <h1>IPS QR – Članarina SRS 2026</h1>
+    <div class="logo">
+      <img src="images/srs-logo.png" alt="Savez radio-amatera Srbije">
+      <div>
+        <h1>IPS QR – Članarina SRS 2026</h1>
+        <div class="badge">Nezvanični IPS QR generator (NBS API)</div>
+      </div>
+    </div>
+
     <p>
-      Generisanje IPS QR koda za plaćanje članarine
-      <strong>Savezu radio-amatera Srbije</strong>.
+      Ova stranica generiše <strong>IPS QR kod</strong> za plaćanje članarine
+      <strong>Savezu radio-amatera Srbije</strong> za 2026. godinu putem mobilnog bankarstva.
+    </p>
+
+    <ul>
+      <li>Primalac: <strong>Savez radio-amatera Srbije</strong></li>
+      <li>Svrha: <strong>Članarina SRS za 2026. godinu - [Ime i prezime]</strong></li>
+      <li>Poziv na broj: vrednost koju uneseš u formu (ugrađuje se u QR kao referenca)</li>
+    </ul>
+
+    <p class="small">
+      <strong>Napomena:</strong> Pre plaćanja obavezno proveri podatke u aplikaciji banke (račun, iznos, svrha, poziv na broj).
+      Autor ne preuzima odgovornost za greške u unosu ili zloupotrebu.
     </p>
   </div>
 
+  <!-- FORM -->
   <div class="card">
     <h2>Unos podataka</h2>
 
     <form id="qrForm">
       <label>Ime i prezime (uplatilac)
-        <input type="text" id="imePrezime" required>
+        <input type="text" id="imePrezime" placeholder="npr. Dragan Manojlović" required>
       </label>
 
-      <label>Poziv na broj (npr. broj članske karte)
-        <input type="text" id="poziv" required>
+      <label>Poziv na broj (npr. broj članske karte / evidencioni broj)
+        <input type="text" id="poziv" placeholder="unesi poziv na broj" required>
       </label>
 
-      <button id="btn" type="submit">Generiši QR kod</button>
+      <div class="check">
+        <input type="checkbox" id="confirm">
+        <div>
+          Potvrđujem da ću <strong>pre plaćanja</strong> proveriti broj računa, iznos i sve podatke u aplikaciji banke.
+        </div>
+      </div>
+
+      <button id="btn" type="submit" disabled>Generiši QR kod</button>
     </form>
   </div>
 
+  <!-- RESULT -->
   <div class="card">
     <h2>Rezultat</h2>
     <div id="result" class="result">
-      Unesite podatke i kliknite na dugme.
+      <div class="small">Popuni podatke, potvrdi checkbox i klikni na dugme.</div>
     </div>
   </div>
 
   <footer>
     © 2026 · IPS QR SRS · Nezvanični alat<br>
-    Autor: <strong>Dragan Manojlović – YT0K</strong>
+    Autor: <strong>Dragan Manojlović – YT0K</strong><br>
+    Autor ne preuzima odgovornost za greške i zloupotrebu.
   </footer>
 
 </div>
 
 <script>
-  document.getElementById('qrForm').addEventListener('submit', async (e) => {
+  const form = document.getElementById('qrForm');
+  const confirmBox = document.getElementById('confirm');
+  const btn = document.getElementById('btn');
+  const resultDiv = document.getElementById('result');
+
+  confirmBox.addEventListener('change', () => {
+    btn.disabled = !confirmBox.checked;
+  });
+
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
-    const ime = document.getElementById('imePrezime').value.trim();
-    const poziv = document.getElementById('poziv').value.trim();
-    const result = document.getElementById('result');
+    const imePrezime = document.getElementById('imePrezime').value.trim();
+    const pozivRaw = document.getElementById('poziv').value.trim();
 
-    result.innerHTML = 'Generišem QR kod…';
+    if (!imePrezime) {
+      resultDiv.innerHTML = '<div class="err">Unesi ime i prezime.</div>';
+      return;
+    }
+    if (!pozivRaw) {
+      resultDiv.innerHTML = '<div class="err">Unesi poziv na broj.</div>';
+      return;
+    }
 
-    const racun = '205000000000245207'; // PROVERITI
+    // Čistimo poziv na broj na cifre (sigurnije za QR parser / banke)
+    const pozivClean = pozivRaw.replace(/\D/g, '');
+
+    // OBAVEZNO PROVERITI PODATKE
+    const racun = '205000000000245207'; // PROVERI DA LI JE TAČNO
     const iznos = 'RSD3000,00';
     const primalac = 'Savez radio-amatera Srbije';
-    const svrha = `Članarina SRS za 2026. godinu – ${ime}`;
 
-    const tekst =
-      `K:PR|V:01|C:1|R:${racun}|N:${primalac}|I:${iznos}|P:${svrha}|S:${poziv}`;
+    // S = svrha plaćanja
+    const svrha = `Članarina SRS za 2026. godinu - ${imePrezime}`;
 
-    try{
-      const r = await fetch('https://nbs.rs/QRcode/api/qr/v1/generate/300',{
-        method:'POST',
-        headers:{'Content-Type':'text/plain'},
-        body:tekst
+    // Obavezni tagovi (kao u tvojoj radnoj verziji) + RO opcioni
+    // N = primalac, S = svrha, RO = referenca/poziv na broj (ako je unet)
+    let tekst = `K:PR|V:01|C:1|R:${racun}|N:${primalac}|I:${iznos}|SF:289|S:${svrha}`;
+
+    if (pozivClean.length > 0) {
+      tekst += `|RO:${pozivClean}`;
+    }
+
+    resultDiv.innerHTML = '<div class="small">Generišem QR kod…</div>';
+
+    try {
+      const response = await fetch('https://nbs.rs/QRcode/api/qr/v1/generate/300', {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: tekst
       });
 
-      const data = await r.json();
+      const data = await response.json();
 
-      if(data.s && data.s.code === 0){
-        result.innerHTML = '';
+      if (data.s && data.s.code === 0) {
+        resultDiv.innerHTML = '';
         const img = document.createElement('img');
         img.className = 'qr';
+        img.alt = 'IPS QR kod';
         img.src = 'data:image/png;base64,' + data.i;
-        result.appendChild(img);
-        result.innerHTML += '<div class="ok">QR kod je uspešno generisan.</div>';
-      }else{
-        result.innerHTML = `<div class="err">Greška: ${data.s?.desc || 'Nepoznata greška'}</div>`;
+        resultDiv.appendChild(img);
+
+        const ok = document.createElement('div');
+        ok.className = 'ok';
+        ok.textContent = 'QR kod je uspešno generisan.';
+        resultDiv.appendChild(ok);
+
+        const info = document.createElement('div');
+        info.className = 'small';
+        info.innerHTML = `Primalac: <strong>${primalac}</strong><br>
+                          Svrha: <strong>${svrha}</strong><br>
+                          Poziv na broj (RO): <strong>${pozivClean || '(nije unet)'}</strong>`;
+        resultDiv.appendChild(info);
+
+      } else {
+        resultDiv.innerHTML = `<div class="err">Greška: ${data?.s?.desc || 'Nepoznata greška'}</div>`;
+        console.error(data);
       }
-    }catch{
-      result.innerHTML = '<div class="err">Greška pri komunikaciji sa NBS serverom.</div>';
+
+    } catch (error) {
+      resultDiv.innerHTML = '<div class="err">Greška pri komunikaciji sa NBS serverom.</div>';
+      console.error(error);
     }
   });
 </script>
+
 </body>
 </html>
